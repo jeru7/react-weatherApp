@@ -124,7 +124,7 @@ function Main() {
         </div>
 
         <div className='p-4 rounded-2xl flex flex-col items-center gap-8 main-bg lg:h-fit lg:col-start-2 lg:col-end-4 lg:row-start-2'>
-          <div className='flex text-center shadow-md rounded-2xl w-full justify-center'>
+          <div className='flex text-center shadow-md rounded-2xl w-full justify-center lg:w-2/5'>
             <div className='p-4 rounded-l-2xl w-full second-bg'>
               <p className='text-xl'>Hourly</p>
             </div>

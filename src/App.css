@@ -14,9 +14,9 @@
   --secondary-dark: #2c3333;
   --highlight-1-dark: #b5c18e;
   /* light mode */
-  --main-light: #fefded;
-  --secondary-light: #f6f5f2;
-  --highlight-1-light: #aac8a7;
+  --main-light: #aac8a7;
+  --secondary-light: #dbefd4;
+  --highlight-1-light: #95ff6c;
   /* font colors */
   --white-text: #ffffff;
   --gray-text: #a9a9a9;
@@ -49,6 +49,14 @@
   background-color: var(--highlight-1-dark);
 }
 
+.light-bg {
+  background-color: var(--main-light);
+}
+
+.second-light-bg {
+  background-color: var(--secondary-light);
+}
+
 body {
   font-family: var(--main-ff);
 }
@@ -64,9 +72,7 @@ body {
     background-color: var(--secondary-dark);
   }
 
-  .nav--main--wrapper,
-  .search--desktop,
-  .themeBtn--desktop {
-    background-color: var(--main-dark);
+  #nav.light-bg {
+    background-color: var(--main-light);
   }
 }
