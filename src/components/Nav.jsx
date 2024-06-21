@@ -3,6 +3,7 @@ import {
   faSearch,
   faMoon,
   faLocationDot,
+  faSun,
 } from '@fortawesome/free-solid-svg-icons'
 import Button from './Button'
 
@@ -38,7 +39,7 @@ function Nav({ isDarkMode, themeHandler }) {
       <div className='h-full flex-1 lg:flex-none flex gap-4 lg:flex-2 xl:w-2/5 lg:drop-shadow-md'>
         <Button
           className={
-            'h-full rounded-lg flex-1 drop-shadow-md text-2xl lg:hidden ' +
+            'h-full rounded-lg flex-1 drop-shadow-md text-2xl lg:hidden py-2 ' +
             (isDarkMode ? 'second-bg' : 'second-light-bg')
           }
         >
@@ -46,11 +47,12 @@ function Nav({ isDarkMode, themeHandler }) {
         </Button>
         <Button
           className={
-            'h-full rounded-lg flex-1 drop-shadow-md text-2xl lg:hidden ' +
+            'h-full rounded-lg flex-1 drop-shadow-md text-2xl lg:hidden py-2 ' +
             (isDarkMode ? 'second-bg' : 'second-light-bg')
           }
+          onClick={themeHandler}
         >
-          <FontAwesomeIcon icon={faMoon} />
+          <FontAwesomeIcon icon={isDarkMode ? faMoon : faSun} />
         </Button>
 
         {/* triggered when the screen width hits lg(1024px) */}
@@ -75,9 +77,10 @@ function Nav({ isDarkMode, themeHandler }) {
             'hidden lg:flex text-2xl gap-3 items-center rounded-xl p-4 ' +
             (isDarkMode ? 'white-text main-bg' : 'second-light-bg dark-text')
           }
+          onClick={themeHandler}
         >
-          <FontAwesomeIcon icon={faMoon} />
-          <p>Dark</p>
+          <FontAwesomeIcon icon={isDarkMode ? faMoon : faSun} />
+          <p>{isDarkMode ? 'Dark' : 'Light'}</p>
         </div>
       </div>
     </nav>

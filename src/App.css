@@ -45,8 +45,12 @@
   background-color: var(--secondary-dark);
 }
 
-.highlight-bg {
+.highlight-dark-bg {
   background-color: var(--highlight-1-dark);
+}
+
+.hightlight-light-bg {
+  background-color: var(--highlight-1-light);
 }
 
 .light-bg {

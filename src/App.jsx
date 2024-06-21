@@ -21,7 +21,7 @@ function App() {
       >
         <Nav isDarkMode={isDarkMode} themeHandler={themeHandler} />
         <Main isDarkMode={isDarkMode} />
-        <Footer />
+        <Footer isDarkMode={isDarkMode} />
       </div>
     </>
   )

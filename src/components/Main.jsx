@@ -12,16 +12,26 @@ import sunriseIcon from '../assets/sunriseIcon.png'
 import sunsetIcon from '../assets/sunsetIcon.png'
 import Button from './Button'
 
-function Main() {
+function Main({ isDarkMode }) {
   return (
     <>
-      <main className='flex flex-col main_card--wrapper w-full gap-4 p-4 lg:grid lg:grid-cols-3'>
-        <Button className='rounded-2xl sm:w-fit flex py-2 px-4 gap-3 items-center highlight-bg dark-text lg:absolute lg:z-10'>
+      <main className='flex flex-col main_card--wrapper w-full gap-4 p-4 lg:grid lg:grid-cols-7'>
+        <Button
+          className={
+            'rounded-2xl sm:w-fit flex py-2 px-4 gap-3 items-center dark-text lg:absolute lg:z-10 ' +
+            (isDarkMode ? 'highlight-dark-bg' : 'hightlight-light-bg')
+          }
+        >
           <FontAwesomeIcon icon={faEarthAmericas} className='text-xl' />
           <p className='text-md font-extrabold'>Get current location</p>
         </Button>
 
-        <div className='card flex flex-col items-center gap-8 p-8 drop-shadow-md rounded-2xl main-bg lg:col-start-2'>
+        <div
+          className={
+            'card flex flex-col items-center gap-8 p-8 drop-shadow-md rounded-2xl lg:col-start-3 lg:col-end-5 ' +
+            (isDarkMode ? 'main-bg' : 'second-light-bg')
+          }
+        >
           <div className='main--top flex gap-4 items-center lg:self-start'>
             <FontAwesomeIcon
               icon={faLocationDot}
@@ -40,7 +50,7 @@ function Main() {
             </div>
             <FontAwesomeIcon
               icon={faCloud}
-              className='text-7xl lg:text-8xl xl:text-9xl'
+              className='text-7xl lg:text-8xl xl:text-9xl white-text'
             />
           </div>
           <div className='border border-gray-500 w-full'></div>
@@ -50,12 +60,22 @@ function Main() {
           </div>
         </div>
 
-        <div className='flex flex-col gap-4 p-4 rounded-2xl main-bg lg:grid lg:grid-cols-2 lg:h-fit'>
+        <div
+          className={
+            'flex flex-col gap-4 p-4 rounded-2xl lg:grid lg:grid-cols-2 lg:col-start-5 lg:col-end-8 ' +
+            (isDarkMode ? 'main-bg' : 'second-light-bg')
+          }
+        >
           <h3 className='text-xl lg:absolute lg:text-sm lg:z-10'>
             Today&apos;s highlights
           </h3>
           <div className='flex flex-col gap-2 lg:row-start-1 lg:row-end-3 lg:mt-6'>
-            <div className='rounded-2xl p-4 flex flex-col items-center justify-center gap-3 drop-shadow-md second-bg'>
+            <div
+              className={
+                'rounded-2xl p-4 flex flex-col items-center justify-center gap-3 drop-shadow-md ' +
+                (isDarkMode ? 'second-bg' : 'second-light-bg')
+              }
+            >
               <div className='flex justify-center gap-4'>
                 <FontAwesomeIcon
                   icon={faWind}
@@ -67,7 +87,12 @@ function Main() {
               </div>
               <p>Wind</p>
             </div>
-            <div className='rounded-2xl p-4 flex flex-col items-center justify-center gap-3 drop-shadow-md second-bg'>
+            <div
+              className={
+                'rounded-2xl p-4 flex flex-col items-center justify-center gap-3 drop-shadow-md ' +
+                (isDarkMode ? 'second-bg' : 'second-light-bg')
+              }
+            >
               <div className='flex justify-center gap-4'>
                 <FontAwesomeIcon
                   icon={faCloudRain}
@@ -77,7 +102,12 @@ function Main() {
               </div>
               <p>Chance of Rain</p>
             </div>
-            <div className='rounded-2xl p-4 flex flex-col items-center justify-center gap-3 drop-shadow-md second-bg'>
+            <div
+              className={
+                'rounded-2xl p-4 flex flex-col items-center justify-center gap-3 drop-shadow-md second-bg ' +
+                (isDarkMode ? 'second-bg' : 'second-light-bg')
+              }
+            >
               <div className='flex justify-center gap-4'>
                 <FontAwesomeIcon
                   icon={faDroplet}
@@ -89,12 +119,17 @@ function Main() {
             </div>
           </div>
 
-          <div className='flex justify-around sm:justify-center sm:gap-36 rounded-2xl drop-shadow-md p-4 second-bg lg:gap-8 xl:gap-16 lg:h-fit'>
+          <div
+            className={
+              'flex justify-around sm:justify-center sm:gap-36 rounded-2xl drop-shadow-md p-4 lg:gap-8 xl:gap-16 ' +
+              (isDarkMode ? 'second-bg' : 'second-light-bg')
+            }
+          >
             <div className='flex flex-col items-center'>
               <img
                 src={sunriseIcon}
                 alt='Sunrise'
-                className='filter-white lg:w-9'
+                className={'lg:w-9 ' + (isDarkMode ? 'filter-white' : '')}
               />
               <p className='lg:text-sm'>Sunrise</p>
               <p className='text-2xl lg:text-sm'>5:45AM</p>
@@ -103,29 +138,44 @@ function Main() {
               <img
                 src={sunsetIcon}
                 alt='Sunset'
-                className='filter-white lg:w-9'
+                className={'lg:w-9 ' + (isDarkMode ? 'filter-white' : '')}
               />
               <p className='lg:text-sm'>Sunrise</p>
               <p className='text-2xl lg:text-sm'>6:15PM</p>
             </div>
           </div>
 
-          <div className='p-4 rounded-2xl drop-shadow-md flex flex-col items-center gap-4 second-bg lg:h-fit lg:col-start-2'>
+          <div
+            className={
+              'p-4 rounded-2xl drop-shadow-md flex flex-col items-center gap-4 lg:col-start-2 ' +
+              (isDarkMode ? 'second-bg' : 'second-light-bg')
+            }
+          >
             <h3 className='text-3xl lg:text-xl'>UV Index</h3>
             <div className='flex flex-col items-center'>
               <p className='text-6xl lg:text-3xl'>3</p>
               <p className='uvReport_pholder text-4xl lg:text-2xl'>Low</p>
             </div>
-            <div className='w-full border'></div>
+            <div className='border border-gray-500 w-full'></div>
             <p className='text-lg text-center lg:text-sm'>
               Low for the rest of the day
             </p>
           </div>
         </div>
 
-        <div className='p-4 rounded-2xl flex flex-col items-center gap-8 main-bg lg:h-fit lg:col-start-2 lg:col-end-4 lg:row-start-2'>
+        <div
+          className={
+            'p-4 rounded-2xl flex flex-col items-center gap-8 lg:col-start-3 lg:col-end-8 lg:row-start-2 ' +
+            (isDarkMode ? 'main-bg' : 'second-light-bg')
+          }
+        >
           <div className='flex text-center shadow-md rounded-2xl w-full justify-center lg:w-2/5'>
-            <div className='p-4 rounded-l-2xl w-full second-bg'>
+            <div
+              className={
+                'p-4 rounded-l-2xl w-full ' +
+                (isDarkMode ? 'second-bg' : 'light-bg')
+              }
+            >
               <p className='text-xl'>Hourly</p>
             </div>
             <div className='p-4 rounded-r-2xl w-full'>
@@ -133,19 +183,34 @@ function Main() {
             </div>
           </div>
           <div className='flex overflow-x-auto w-full gap-2 p-2'>
-            <div className='flex flex-col items-center gap-8 p-4 rounded-2xl shadow-md w-45 flex-shrink-0 second-bg'>
+            <div
+              className={
+                'flex flex-col items-center gap-8 p-4 rounded-2xl drop-shadow-md w-45 flex-shrink-0 ' +
+                (isDarkMode ? 'second-bg' : 'second-light-bg')
+              }
+            >
               <p className='text-4xl'>1 PM</p>
               <FontAwesomeIcon icon={faCloud} className='text-7xl' />
               <p className='text-4xl'>10°</p>
               <p className='text-lg'>Overcast clouds</p>
             </div>
-            <div className='flex flex-col items-center gap-8 p-4 rounded-2xl shadow-md w-45 flex-shrink-0 second-bg'>
+            <div
+              className={
+                'flex flex-col items-center gap-8 p-4 rounded-2xl drop-shadow-md w-45 flex-shrink-0 ' +
+                (isDarkMode ? 'second-bg' : 'second-light-bg')
+              }
+            >
               <p className='text-4xl'>1 PM</p>
               <FontAwesomeIcon icon={faCloud} className='text-7xl' />
               <p className='text-4xl'>10°</p>
               <p className='text-lg'>Overcast clouds</p>
             </div>
-            <div className='flex flex-col items-center gap-8 p-4 rounded-2xl shadow-md w-45 flex-shrink-0 second-bg'>
+            <div
+              className={
+                'flex flex-col items-center gap-8 p-4 rounded-2xl drop-shadow-md w-45 flex-shrink-0 ' +
+                (isDarkMode ? 'second-bg' : 'second-light-bg')
+              }
+            >
               <p className='text-4xl'>1 PM</p>
               <FontAwesomeIcon icon={faCloud} className='text-7xl' />
               <p className='text-4xl'>10°</p>
@@ -154,9 +219,19 @@ function Main() {
           </div>
         </div>
 
-        <div className='p-4 rounded-2xl flex flex-col items-center gap-4 main-bg lg:row-start-1 lg:row-end-3 mt-12'>
+        <div
+          className={
+            'p-4 rounded-2xl flex flex-col items-center gap-4 lg:row-start-1 lg:row-end-3 lg:col-start-1 lg:col-end-3 mt-12 ' +
+            (isDarkMode ? 'main-bg' : 'second-light-bg')
+          }
+        >
           <h3 className='self-start text-2xl'>7 Days Forecasts</h3>
-          <div className='flex p-4 rounded-2xl w-full justify-around second-bg lg:h-full'>
+          <div
+            className={
+              'flex p-4 rounded-2xl w-full justify-around lg:h-full drop-shadow-md ' +
+              (isDarkMode ? 'second-bg' : 'second-light-bg')
+            }
+          >
             <div className='flex items-center gap-2'>
               <FontAwesomeIcon icon={faCloud} className='text-4xl' />
               <p className='text-4xl'>10°</p>
@@ -169,7 +244,12 @@ function Main() {
               </div>
             </div>
           </div>
-          <div className='flex p-4 rounded-2xl w-full justify-around second-bg lg:h-full'>
+          <div
+            className={
+              'flex p-4 rounded-2xl w-full justify-around lg:h-full drop-shadow-md ' +
+              (isDarkMode ? 'second-bg' : 'second-light-bg')
+            }
+          >
             <div className='flex items-center gap-2'>
               <FontAwesomeIcon icon={faCloud} className='text-4xl' />
               <p className='text-4xl'>10°</p>
@@ -182,7 +262,12 @@ function Main() {
               </div>
             </div>
           </div>
-          <div className='flex p-4 rounded-2xl w-full justify-around second-bg lg:h-full'>
+          <div
+            className={
+              'flex p-4 rounded-2xl w-full justify-around lg:h-full drop-shadow-md ' +
+              (isDarkMode ? 'second-bg' : 'second-light-bg')
+            }
+          >
             <div className='flex items-center gap-2'>
               <FontAwesomeIcon icon={faCloud} className='text-4xl' />
               <p className='text-4xl'>10°</p>
@@ -195,7 +280,12 @@ function Main() {
               </div>
             </div>
           </div>
-          <div className='flex p-4 rounded-2xl w-full justify-around second-bg lg:h-full'>
+          <div
+            className={
+              'flex p-4 rounded-2xl w-full justify-around lg:h-full drop-shadow-md ' +
+              (isDarkMode ? 'second-bg' : 'second-light-bg')
+            }
+          >
             <div className='flex items-center gap-2'>
               <FontAwesomeIcon icon={faCloud} className='text-4xl' />
               <p className='text-4xl'>10°</p>
@@ -208,7 +298,12 @@ function Main() {
               </div>
             </div>
           </div>
-          <div className='flex p-4 rounded-2xl w-full justify-around second-bg lg:h-full'>
+          <div
+            className={
+              'flex p-4 rounded-2xl w-full justify-around lg:h-full drop-shadow-md ' +
+              (isDarkMode ? 'second-bg' : 'second-light-bg')
+            }
+          >
             <div className='flex items-center gap-2'>
               <FontAwesomeIcon icon={faCloud} className='text-4xl' />
               <p className='text-4xl'>10°</p>
@@ -221,7 +316,12 @@ function Main() {
               </div>
             </div>
           </div>
-          <div className='flex p-4 rounded-2xl w-full justify-around second-bg lg:h-full'>
+          <div
+            className={
+              'flex p-4 rounded-2xl w-full justify-around lg:h-full drop-shadow-md ' +
+              (isDarkMode ? 'second-bg' : 'second-light-bg')
+            }
+          >
             <div className='flex items-center gap-2'>
               <FontAwesomeIcon icon={faCloud} className='text-4xl' />
               <p className='text-4xl'>10°</p>
@@ -234,7 +334,12 @@ function Main() {
               </div>
             </div>
           </div>
-          <div className='flex p-4 rounded-2xl w-full justify-around second-bg lg:h-full'>
+          <div
+            className={
+              'flex p-4 rounded-2xl w-full justify-around lg:h-full drop-shadow-md ' +
+              (isDarkMode ? 'second-bg' : 'second-light-bg')
+            }
+          >
             <div className='flex items-center gap-2'>
               <FontAwesomeIcon icon={faCloud} className='text-4xl' />
               <p className='text-4xl'>10°</p>
