@@ -69,10 +69,10 @@ function Main({ isDarkMode }) {
           <h3 className='text-xl lg:absolute lg:text-sm lg:z-10'>
             Today&apos;s highlights
           </h3>
-          <div className='flex flex-col gap-2 lg:row-start-1 lg:row-end-3 lg:mt-6'>
+          <div className='flex flex-col gap-2 lg:row-start-1 lg:row-end-3 lg:mt-6 '>
             <div
               className={
-                'rounded-2xl p-4 flex flex-col items-center justify-center gap-3 drop-shadow-md ' +
+                'rounded-2xl p-4 flex flex-col items-center justify-center gap-3 drop-shadow-md h-full ' +
                 (isDarkMode ? 'second-bg' : 'second-light-bg')
               }
             >
@@ -89,7 +89,7 @@ function Main({ isDarkMode }) {
             </div>
             <div
               className={
-                'rounded-2xl p-4 flex flex-col items-center justify-center gap-3 drop-shadow-md ' +
+                'rounded-2xl p-4 flex flex-col items-center justify-center gap-3 drop-shadow-md h-full ' +
                 (isDarkMode ? 'second-bg' : 'second-light-bg')
               }
             >
@@ -104,7 +104,7 @@ function Main({ isDarkMode }) {
             </div>
             <div
               className={
-                'rounded-2xl p-4 flex flex-col items-center justify-center gap-3 drop-shadow-md second-bg ' +
+                'rounded-2xl p-4 flex flex-col items-center justify-center gap-3 drop-shadow-md second-bg h-full ' +
                 (isDarkMode ? 'second-bg' : 'second-light-bg')
               }
             >

@@ -6,6 +6,7 @@ import {
   faSun,
 } from '@fortawesome/free-solid-svg-icons'
 import Button from './Button'
+import { useEffect, useState } from 'react'
 
 function Nav({ isDarkMode, themeHandler }) {
   return (
@@ -18,47 +19,38 @@ function Nav({ isDarkMode, themeHandler }) {
     >
       <div
         className={
-          'flex-1 flex items-center lg:justify-between lg:rounded-xl lg:p-3 lg:px-6 lg:drop-shadow-md ' +
+          'md:flex-1 lg:basis-auto flex items-center lg:justify-between lg:rounded-xl lg:p-3 lg:px-6 lg:drop-shadow-md ' +
           (isDarkMode ? 'main-bg' : 'second-light-bg')
         }
       >
         <h1 className='text-3xl sm:text-4xl justify-self-start font-extrabold bg-inherit'>
           WeatherApp
         </h1>
-        <div className='currLoc-wrapper hidden lg:flex lg:gap-3'>
+        <div className='hidden lg:flex lg:gap-3'>
           <FontAwesomeIcon
             icon={faLocationDot}
             className={
               'text-xl xl:text-2xl ' + (isDarkMode ? 'filter-white' : '')
             }
           />
-          <p className='text-xl xl:text-2xl'>Valenzuela City, Philippines</p>
+          <p className='lg:text-lg xl:text-xl'>Valenzuela City, PH</p>
         </div>
       </div>
 
-      <div className='h-full flex-1 lg:flex-none flex gap-4 lg:flex-2 xl:w-2/5 lg:drop-shadow-md'>
+      <div className='h-full flex-1 flex gap-4 basis-auto lg:basis-1/4 lg:w-1/5 lg:drop-shadow-md'>
         <Button
           className={
-            'h-full rounded-lg flex-1 drop-shadow-md text-2xl lg:hidden py-2 ' +
+            'h-full rounded-lg flex-1 lg:basis-auto drop-shadow-md text-2xl lg:hidden py-2 ' +
             (isDarkMode ? 'second-bg' : 'second-light-bg')
           }
         >
           <FontAwesomeIcon icon={faSearch} />
         </Button>
-        <Button
-          className={
-            'h-full rounded-lg flex-1 drop-shadow-md text-2xl lg:hidden py-2 ' +
-            (isDarkMode ? 'second-bg' : 'second-light-bg')
-          }
-          onClick={themeHandler}
-        >
-          <FontAwesomeIcon icon={isDarkMode ? faMoon : faSun} />
-        </Button>
 
         {/* triggered when the screen width hits lg(1024px) */}
-        <div
+        <Button
           className={
-            'hidden lg:flex flex-1 items-center gap-3 rounded-xl p-4 ' +
+            'hidden lg:flex flex-1 lg:basis-1/4 items-center gap-3 rounded-xl p-4 ' +
             (isDarkMode ? 'main-bg' : 'second-light-bg')
           }
         >
@@ -66,25 +58,56 @@ function Nav({ isDarkMode, themeHandler }) {
           <input
             type='text'
             className={
-              'text-xl ' + (isDarkMode ? 'main-bg' : 'second-light-bg')
+              'text-xl w-full outline-none ' +
+              (isDarkMode ? 'main-bg' : 'second-light-bg')
             }
             placeholder='Search city...'
           ></input>
-        </div>
+        </Button>
 
-        <div
-          className={
-            'hidden lg:flex text-2xl gap-3 items-center rounded-xl p-4 ' +
-            (isDarkMode ? 'white-text main-bg' : 'second-light-bg dark-text')
-          }
-          onClick={themeHandler}
-        >
-          <FontAwesomeIcon icon={isDarkMode ? faMoon : faSun} />
-          <p>{isDarkMode ? 'Dark' : 'Light'}</p>
-        </div>
+        <ThemeToggleButton
+          isDarkMode={isDarkMode}
+          themeHandler={themeHandler}
+        />
       </div>
     </nav>
   )
 }
 
+function ThemeToggleButton({ isDarkMode, themeHandler }) {
+  const [screenWidth, setScreenWidth] = useState(window.innerWidth)
+
+  useEffect(() => {
+    const handleResize = () => {
+      setScreenWidth(window.innerWidth)
+    }
+
+    window.addEventListener('resize', handleResize)
+
+    return () => {
+      window.removeEventListener('resize', handleResize)
+    }
+  }, [])
+
+  return (
+    <Button
+      className={
+        'rounded-lg flex-1 drop-shadow-md text-2xl lg:flex items-center justify-center gap-4 ' +
+        (isDarkMode
+          ? screenWidth >= 1024
+            ? 'main-bg'
+            : 'second-bg '
+          : 'second-light-bg')
+      }
+      onClick={themeHandler}
+    >
+      <FontAwesomeIcon
+        icon={isDarkMode ? faMoon : faSun}
+        className='text-auto'
+      />
+
+      <p className='hidden lg:block'>{isDarkMode ? 'Dark' : 'Light'}</p>
+    </Button>
+  )
+}
 export default Nav
