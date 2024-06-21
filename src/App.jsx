@@ -6,7 +6,7 @@ import './App.css'
 function App() {
   return (
     <>
-      <div className='app--wrapper pb-4'>
+      <div className='app--wrapper pb-4 second-bg white-text'>
         <Nav />
         <Main />
         <Footer />

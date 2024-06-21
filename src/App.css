@@ -24,66 +24,49 @@
   --main-ff: 'Anonymous Pro', monospace;
 }
 
-body {
-  font-family: var(--main-ff);
-}
-
-.app--wrapper {
-  background-color: var(--secondary-dark);
-}
-
-/* nav */
-#nav {
-  background-color: var(--main-dark);
-}
-
-#nav h1 {
+/* color theme */
+.white-text {
   color: var(--white-text);
 }
 
-.nav--buttons button {
-  color: var(--white-text);
-  background-color: var(--secondary-dark);
-}
-
-/* main */
-main {
-  background: var(--secondary-dark);
-}
-
-.currBtn {
-  background-color: var(--highlight-1-dark);
+.dark-text {
   color: var(--main-dark);
 }
 
-.card {
-  color: var(--white-text);
+.placeholder-text {
+  color: var(--gray-text);
+}
+
+.main-bg {
   background-color: var(--main-dark);
 }
 
-.line {
-  border: 1px solid;
-  color: var(--secondary-dark);
+.second-bg {
+  background-color: var(--secondary-dark);
 }
 
-.todayCard {
-  background-color: var(--secondary-dark);
+.highlight-bg {
+  background-color: var(--highlight-1-dark);
+}
+
+body {
+  font-family: var(--main-ff);
 }
 
 .filter-white {
   filter: brightness(0) invert(1);
 }
 
-.hourly--toggler {
-  background-color: var(--secondary-dark);
-}
+/* media queries */
 
-/* footer */
-footer {
-  background-color: var(--main-dark);
-  margin: 0 auto;
-}
+@media only screen and (min-width: 1024px) {
+  #nav {
+    background-color: var(--secondary-dark);
+  }
 
-.github--wrapper {
-  color: var(--white-text);
+  .nav--main--wrapper,
+  .search--desktop,
+  .themeBtn--desktop {
+    background-color: var(--main-dark);
+  }
 }
