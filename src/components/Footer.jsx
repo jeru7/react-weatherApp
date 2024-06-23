@@ -5,11 +5,11 @@ function Footer({ isDarkMode }) {
   return (
     <footer
       className={
-        'mx-4 p-4 flex items-center justify-center rounded-2xl shadow-md ' +
+        'flex items-center justify-center mx-4 p-4 rounded-2xl shadow-md ' +
         (isDarkMode ? 'main-bg' : 'second-light-bg')
       }
     >
-      <div className='github--wrapper flex gap-1'>
+      <div className='flex gap-1 github--wrapper'>
         <FontAwesomeIcon icon={faGithub} className='text-5xl' />
         <h3 className='self-end text-xl font-extrabold'>jeru7</h3>
       </div>

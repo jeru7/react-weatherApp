@@ -6,9 +6,8 @@ import {
   faSun,
 } from '@fortawesome/free-solid-svg-icons'
 import Button from './Button'
-import { useEffect, useState } from 'react'
 
-function Nav({ isDarkMode, themeHandler }) {
+function Nav({ isDarkMode, themeHandler, screenWidth }) {
   return (
     <nav
       className={
@@ -23,7 +22,7 @@ function Nav({ isDarkMode, themeHandler }) {
           (isDarkMode ? 'main-bg' : 'second-light-bg')
         }
       >
-        <h1 className='text-3xl sm:text-4xl justify-self-start font-extrabold bg-inherit'>
+        <h1 className='text-3xl font-extrabold sm:text-4xl justify-self-start bg-inherit'>
           WeatherApp
         </h1>
         <div className='hidden lg:flex lg:gap-3'>
@@ -37,7 +36,7 @@ function Nav({ isDarkMode, themeHandler }) {
         </div>
       </div>
 
-      <div className='h-full flex-1 flex gap-4 basis-auto lg:basis-1/4 lg:w-1/5 lg:drop-shadow-md'>
+      <div className='flex flex-1 h-full gap-4 basis-auto lg:basis-1/4 lg:w-1/5 lg:drop-shadow-md'>
         <Button
           className={
             'h-full rounded-lg flex-1 lg:basis-auto drop-shadow-md text-2xl lg:hidden py-2 ' +
@@ -61,34 +60,21 @@ function Nav({ isDarkMode, themeHandler }) {
               'text-xl w-full outline-none ' +
               (isDarkMode ? 'main-bg' : 'second-light-bg')
             }
-            placeholder='Search city...'
+            placeholder='Search City, Country Code...'
           ></input>
         </Button>
 
         <ThemeToggleButton
           isDarkMode={isDarkMode}
           themeHandler={themeHandler}
+          screenWidth={screenWidth}
         />
       </div>
     </nav>
   )
 }
 
-function ThemeToggleButton({ isDarkMode, themeHandler }) {
-  const [screenWidth, setScreenWidth] = useState(window.innerWidth)
-
-  useEffect(() => {
-    const handleResize = () => {
-      setScreenWidth(window.innerWidth)
-    }
-
-    window.addEventListener('resize', handleResize)
-
-    return () => {
-      window.removeEventListener('resize', handleResize)
-    }
-  }, [])
-
+function ThemeToggleButton({ isDarkMode, themeHandler, screenWidth }) {
   return (
     <Button
       className={
