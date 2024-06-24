@@ -9,7 +9,13 @@ import axios from 'axios'
 import Button from './Button'
 import { useState } from 'react'
 
-function Nav({ isDarkMode, themeHandler, screenWidth, searchHandler }) {
+function Nav({
+  isDarkMode,
+  themeHandler,
+  screenWidth,
+  searchHandler,
+  currentCity,
+}) {
   const geoUserName = import.meta.env.VITE_WEATHERAPP_GEONAMES_USERNAME
   const [searchValue, setSearchValue] = useState('')
   const [suggestions, setSuggestions] = useState([])
@@ -26,8 +32,6 @@ function Nav({ isDarkMode, themeHandler, screenWidth, searchHandler }) {
             username: geoUserName,
           },
         })
-        console.log(response)
-        console.log(response.data.geonames)
         setSuggestions(response.data.geonames)
       } catch (e) {
         console.log(`Failed fetching suggestions. ${e.message}`)
@@ -43,8 +47,9 @@ function Nav({ isDarkMode, themeHandler, screenWidth, searchHandler }) {
     }
   }
 
-  const handleSearchClick = (e) => {
-    searchHandler(e)
+  const handleSearchClick = () => {
+    const splitValue = searchValue.split(',')
+    searchHandler(splitValue[0], splitValue[1])
   }
 
   const handleSuggestionClick = (city) => {
@@ -77,7 +82,7 @@ function Nav({ isDarkMode, themeHandler, screenWidth, searchHandler }) {
               'text-xl xl:text-2xl ' + (isDarkMode ? 'filter-white' : '')
             }
           />
-          <p className='lg:text-lg xl:text-xl'>Valenzuela City, PH</p>
+          <p className='lg:text-lg xl:text-xl'>{currentCity}</p>
         </div>
       </div>
 
