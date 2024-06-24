@@ -5,20 +5,65 @@ import {
   faLocationDot,
   faSun,
 } from '@fortawesome/free-solid-svg-icons'
+import axios from 'axios'
 import Button from './Button'
+import { useState } from 'react'
 
-function Nav({ isDarkMode, themeHandler, screenWidth }) {
+function Nav({ isDarkMode, themeHandler, screenWidth, searchHandler }) {
+  const geoUserName = import.meta.env.VITE_WEATHERAPP_GEONAMES_USERNAME
+  const [searchValue, setSearchValue] = useState('')
+  const [suggestions, setSuggestions] = useState([])
+
+  const handleInputSearch = async (e) => {
+    setSearchValue(e.target.value)
+
+    if (e.target.value.length > 0) {
+      try {
+        const response = await axios.get('http://api.geonames.org/searchJSON', {
+          params: {
+            q: e.target.value,
+            maxRows: 5,
+            username: geoUserName,
+          },
+        })
+        console.log(response)
+        console.log(response.data.geonames)
+        setSuggestions(response.data.geonames)
+      } catch (e) {
+        console.log(`Failed fetching suggestions. ${e.message}`)
+      }
+    } else {
+      setSuggestions([])
+    }
+  }
+
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter') {
+      searchHandler(searchValue)
+    }
+  }
+
+  const handleSearchClick = (e) => {
+    searchHandler(e)
+  }
+
+  const handleSuggestionClick = (city) => {
+    setSearchValue(`${city.name}, ${city.countryCode}`)
+    setSuggestions([])
+    searchHandler(city.name, city.countryCode)
+  }
+
   return (
     <nav
       className={
-        'h-fit flex flex-row items-center p-4 lg:p-2 justify-between gap-4 ' +
+        'flex lg:p-2 gap-4 p-4 ' +
         (isDarkMode ? 'main-bg' : 'light-bg dark-text second-light-bg')
       }
       id='nav'
     >
       <div
         className={
-          'md:flex-1 lg:basis-auto flex items-center lg:justify-between lg:rounded-xl lg:p-3 lg:px-6 lg:drop-shadow-md ' +
+          'md:flex-1 lg:basis-auto flex items-center lg:justify-between lg:rounded-xl lg:p-3 lg:drop-shadow-md ' +
           (isDarkMode ? 'main-bg' : 'second-light-bg')
         }
       >
@@ -36,7 +81,7 @@ function Nav({ isDarkMode, themeHandler, screenWidth }) {
         </div>
       </div>
 
-      <div className='flex flex-1 h-full gap-4 basis-auto lg:basis-1/4 lg:w-1/5 lg:drop-shadow-md'>
+      <div className='z-50 flex flex-1 gap-4 basis-auto lg:basis-1/4 lg:w-1/5 lg:drop-shadow-md '>
         <Button
           className={
             'h-full rounded-lg flex-1 lg:basis-auto drop-shadow-md text-2xl lg:hidden py-2 ' +
@@ -47,22 +92,51 @@ function Nav({ isDarkMode, themeHandler, screenWidth }) {
         </Button>
 
         {/* triggered when the screen width hits lg(1024px) */}
-        <Button
+        <div
           className={
-            'hidden lg:flex flex-1 lg:basis-1/4 items-center gap-3 rounded-xl p-4 ' +
+            'hidden lg:flex flex-1 lg:basis-1/4 px-4 items-center gap-3 rounded-xl relative ' +
             (isDarkMode ? 'main-bg' : 'second-light-bg')
           }
         >
-          <FontAwesomeIcon icon={faSearch} className='text-xl' />
-          <input
-            type='text'
-            className={
-              'text-xl w-full outline-none ' +
-              (isDarkMode ? 'main-bg' : 'second-light-bg')
-            }
-            placeholder='Search City, Country Code...'
-          ></input>
-        </Button>
+          <div className='flex flex-col items-center w-full'>
+            <form className='flex items-center w-full gap-3 lg:flex-row-reverse '>
+              <input
+                type='text'
+                className={
+                  'text-xl w-full outline-none ' +
+                  (isDarkMode ? 'main-bg' : 'second-light-bg')
+                }
+                placeholder='Search City, Country Code...'
+                value={searchValue}
+                onChange={handleInputSearch}
+                onKeyDown={handleKeyDown}
+              ></input>
+              <FontAwesomeIcon
+                icon={faSearch}
+                className='text-xl cursor-pointer'
+                onClick={handleSearchClick}
+              />
+            </form>
+            {searchValue && suggestions.length > 0 && (
+              <ul
+                className={
+                  'absolute flex flex-col w-full mt-12 rounded-lg drop-shadow-md ' +
+                  (isDarkMode ? 'second-bg' : 'second-light-bg')
+                }
+              >
+                {suggestions.map((city) => (
+                  <li
+                    key={city.geonameId}
+                    onClick={() => handleSuggestionClick(city)}
+                    className='p-4 text-xl cursor-pointer bg-inherit'
+                  >
+                    {city.name}, {city.countryCode}
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
+        </div>
 
         <ThemeToggleButton
           isDarkMode={isDarkMode}
