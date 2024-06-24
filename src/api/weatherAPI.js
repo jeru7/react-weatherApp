@@ -1,19 +1,16 @@
 import axios from 'axios'
-import dotenv from 'dotenv'
 
-dotenv.config()
+const API_KEY = import.meta.env.VITE_WEATHERAPP_OPENWEATHER_API_KEY
 
-const API_KEY = import.meta.env.WEATHERAPP_OPENWEATHER_API_KEY
-
-export const GetCurrentWeather = async (city, country) => {
+export const GetCurrentWeather = async (city, countryCode) => {
   try {
     const response = await axios.get(
       'https://api.openweathermap.org/data/2.5/weather',
       {
         params: {
-          q: city,
-          country,
+          q: `${city},${countryCode}`,
           appid: API_KEY,
+          units: 'metric',
         },
       }
     )
@@ -23,15 +20,16 @@ export const GetCurrentWeather = async (city, country) => {
   }
 }
 
-export const DaysForecast = async (lat, lon) => {
+export const GetDayForecast = async (lat, lon) => {
   try {
     const response = await axios.get(
       'https://api.openweathermap.org/data/2.5/forecast',
       {
         params: {
-          q: lat,
-          lon,
+          lat: lat,
+          lon: lon,
           appid: API_KEY,
+          units: 'metric',
         },
       }
     )
