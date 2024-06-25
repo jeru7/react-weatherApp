@@ -8,7 +8,18 @@ import {
 import sunriseIcon from '../../assets/sunriseIcon.png'
 import sunsetIcon from '../../assets/sunsetIcon.png'
 
-const Today = ({ isDarkMode }) => {
+const Today = ({ isDarkMode, weatherData }) => {
+  const timeFormat = (timestamp, timezone) => {
+    const date = new Date((timestamp + timezone) * 1000)
+    let hours = date.getUTCHours()
+    let minutes = date.getUTCMinutes()
+    let amPm = hours >= 12 ? 'PM' : 'AM'
+    hours = hours % 12
+    hours = hours === 0 ? 12 : hours
+    let minutesStr = minutes < 10 ? '0' + minutes : minutes
+
+    return `${hours}:${minutesStr}${amPm}`
+  }
   return (
     <div
       className={
@@ -29,7 +40,8 @@ const Today = ({ isDarkMode }) => {
           <div className='flex justify-center gap-4'>
             <FontAwesomeIcon icon={faWind} className='text-5xl lg:text-3xl' />
             <p className='text-5xl wind_pholder lg:text-3xl'>
-              3.7<span className='text-base'>km/h</span>
+              {weatherData.wind.speed}
+              <span className='text-base'>km/h</span>
             </p>
           </div>
           <p>Wind</p>
@@ -46,7 +58,9 @@ const Today = ({ isDarkMode }) => {
                 icon={faTemperatureArrowUp}
                 className='text-5xl lg:text-3xl'
               />
-              <p className='text-5xl lg:text-3xl'>10</p>
+              <p className='text-5xl lg:text-3xl'>
+                {Math.round(weatherData.main.temp_max)}°
+              </p>
             </div>
             <p>Max</p>
           </div>
@@ -56,7 +70,9 @@ const Today = ({ isDarkMode }) => {
                 icon={faTemperatureArrowDown}
                 className='text-5xl lg:text-3xl'
               />
-              <p className='text-5xl lg:text-3xl'>10</p>
+              <p className='text-5xl lg:text-3xl'>
+                {Math.round(weatherData.main.temp_min)}°
+              </p>
             </div>
             <p>Min</p>
           </div>
@@ -72,7 +88,7 @@ const Today = ({ isDarkMode }) => {
               icon={faDroplet}
               className='text-5xl lg:text-3xl'
             />
-            <p className='text-5xl lg:text-3xl'>22%</p>
+            <p className='text-5xl lg:text-3xl'>{weatherData.main.humidity}%</p>
           </div>
           <p>Humidity</p>
         </div>
@@ -80,7 +96,7 @@ const Today = ({ isDarkMode }) => {
 
       <div
         className={
-          'flex justify-around sm:justify-center sm:gap-36 rounded-2xl drop-shadow-md p-4 lg:gap-8 xl:gap-16 ' +
+          'flex justify-around sm:justify-center items-center sm:gap-36 rounded-2xl drop-shadow-md p-4 lg:gap-8 xl:gap-16 ' +
           (isDarkMode ? 'second-bg' : 'second-light-bg')
         }
       >
@@ -88,36 +104,34 @@ const Today = ({ isDarkMode }) => {
           <img
             src={sunriseIcon}
             alt='Sunrise'
-            className={'lg:w-9 ' + (isDarkMode ? 'filter-white' : '')}
+            className={`lg:w-12 xl:w-16 ${isDarkMode ? 'filter-white' : ''}`}
           />
-          <p className='lg:text-sm'>Sunrise</p>
-          <p className='text-2xl lg:text-sm'>5:45AM</p>
+          <p className='md:text-md lg:text-lg'>Sunrise</p>
+          <p className='text-2xl md:text-md lg:text-lg'>
+            {timeFormat(weatherData.sys.sunrise, weatherData.timezone)}
+          </p>
         </div>
         <div className='flex flex-col items-center'>
           <img
             src={sunsetIcon}
             alt='Sunset'
-            className={'lg:w-9 ' + (isDarkMode ? 'filter-white' : '')}
+            className={`lg:w-12 xl:w-16 ${isDarkMode ? 'filter-white' : ''}`}
           />
-          <p className='lg:text-sm'>Sunrise</p>
-          <p className='text-2xl lg:text-sm'>6:15PM</p>
+          <p className='lg:text-lg md:text-md'>Sunset</p>
+          <p className='text-2xl lg:text-lg md:text-md'>
+            {timeFormat(weatherData.sys.sunset, weatherData.timezone)}
+          </p>
         </div>
       </div>
 
       <div
         className={
-          'p-4 rounded-2xl drop-shadow-md flex flex-col items-center gap-4 lg:col-start-2 ' +
+          'hidden p-4 rounded-2xl drop-shadow-md lg:flex justify-center items-center gap-4 lg:col-start-2 ' +
           (isDarkMode ? 'second-bg' : 'second-light-bg')
         }
       >
-        <h3 className='text-3xl lg:text-xl'>UV Index</h3>
-        <div className='flex flex-col items-center'>
-          <p className='text-6xl lg:text-3xl'>3</p>
-          <p className='text-4xl uvReport_pholder lg:text-2xl'>Low</p>
-        </div>
-        <div className='w-full border border-gray-500'></div>
-        <p className='text-lg text-center lg:text-sm'>
-          Low for the rest of the day
+        <p className='text-center placeholder-text'>
+          UV INDEX IS NOT AVAILABLE AT THE MOMENT
         </p>
       </div>
     </div>
