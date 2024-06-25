@@ -4,8 +4,16 @@ import {
   faCloud,
   faCalendar,
 } from '@fortawesome/free-solid-svg-icons'
-const Current = ({ isDarkMode, weatherData }) => {
+const Current = ({ isDarkMode, weatherData, days, months }) => {
   const description = weatherData.weather[0].description
+  const dateFormat = (timestamp) => {
+    const date = new Date(timestamp * 1000)
+    const dayName = days[date.getUTCDay()]
+    const month = months[date.getUTCMonth()]
+    const dayNumber = date.getUTCDate()
+
+    return `${dayName} ${dayNumber}, ${month}`
+  }
   return (
     <div
       className={
@@ -39,7 +47,7 @@ const Current = ({ isDarkMode, weatherData }) => {
       <div className='w-full border border-gray-500'></div>
       <div className='flex items-center justify-start w-full gap-4 main--bot sm:w-fit lg:w-full'>
         <FontAwesomeIcon icon={faCalendar} className='text-2xl' />
-        <p className='text-md'>Saturday 25, May</p>
+        <p className='text-md'>{dateFormat(weatherData.dt)}</p>
       </div>
     </div>
   )

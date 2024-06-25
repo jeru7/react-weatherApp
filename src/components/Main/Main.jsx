@@ -7,6 +7,31 @@ import HourlyDaily from './HourlyDaily'
 import Current from './Current'
 
 function Main({ isDarkMode, weatherData }) {
+  const months = [
+    'January',
+    'February',
+    'March',
+    'April',
+    'May',
+    'June',
+    'July',
+    'August',
+    'September',
+    'October',
+    'November',
+    'December',
+  ]
+
+  const days = [
+    'Sunday',
+    'Monday',
+    'Tuesday',
+    'Wednesday',
+    'Thursday',
+    'Friday',
+    'Saturday',
+  ]
+
   return (
     <>
       <main className='flex flex-col w-full gap-4 p-4 main_card--wrapper lg:grid lg:grid-cols-7'>
@@ -21,8 +46,13 @@ function Main({ isDarkMode, weatherData }) {
         </Button>
         {weatherData && (
           <>
-            <Current isDarkMode={isDarkMode} weatherData={weatherData} />
-            <Today isDarkMode={isDarkMode} />
+            <Current
+              isDarkMode={isDarkMode}
+              weatherData={weatherData}
+              days={days}
+              months={months}
+            />
+            <Today isDarkMode={isDarkMode} weatherData={weatherData} />
             <HourlyDaily isDarkMode={isDarkMode} />
             <DaysForecast isDarkMode={isDarkMode} />
           </>

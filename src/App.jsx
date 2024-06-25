@@ -131,7 +131,8 @@ function App() {
           const { latitude, longitude } = position.coords
           console.log(`lat2: ${latitude}`)
           console.log(`lon2: ${longitude}`)
-          // rounding  to one decimal place returns my correct location
+          // rounding to one decimal place returns my correct location
+          setCurrentLocation(latitude.toFixed(1), longitude)
           searchHandler(null, null, latitude.toFixed(1), longitude)
         },
         (e) => {
