@@ -69,6 +69,31 @@ body {
   filter: brightness(0) invert(1);
 }
 
+/* customs */
+.second-bg li:not(:last-child) {
+  border-bottom: 2px solid var(--main-dark);
+}
+
+.second-light-bg li:not(:last-child) {
+  border-bottom: 2px solid var(--main-light);
+}
+
+li:first-child {
+  border-radius: 8px 8px 0 0;
+}
+
+li:last-child {
+  border-radius: 0 0 8px 8px;
+}
+
+.second-bg li:hover {
+  background-color: var(--main-dark);
+}
+
+.second-light-bg li:hover {
+  background-color: var(--main-light) !important;
+}
+
 /* media queries */
 
 @media only screen and (min-width: 1024px) {

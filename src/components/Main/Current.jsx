@@ -4,7 +4,8 @@ import {
   faCloud,
   faCalendar,
 } from '@fortawesome/free-solid-svg-icons'
-const Current = ({ isDarkMode }) => {
+const Current = ({ isDarkMode, weatherData }) => {
+  const description = weatherData.weather[0].description
   return (
     <div
       className={
@@ -17,12 +18,18 @@ const Current = ({ isDarkMode }) => {
           icon={faLocationDot}
           className='text-3xl lg:text-4xl'
         />
-        <h3 className='text-3xl city_pholder lg:text-4xl'>Valenzuela</h3>
+        <h3 className='text-3xl city_pholder lg:text-4xl'>
+          {weatherData.name}
+        </h3>
       </div>
       <div className='flex items-center justify-center w-full gap-4'>
         <div className='flex flex-col items-center temp--wrapper'>
-          <h3 className='text-6xl temp_pholder lg:text-7xl xl:text-8xl'>10°</h3>
-          <p className='text-md lg:text-xl lg:text-center'>Overcast Clouds</p>
+          <h3 className='text-6xl temp_pholder lg:text-7xl xl:text-7xl'>
+            {Math.round(weatherData.main.temp)}°
+          </h3>
+          <p className='text-md lg:text-xl lg:text-center'>
+            {description.charAt(0).toUpperCase() + description.slice(1)}
+          </p>
         </div>
         <FontAwesomeIcon
           icon={faCloud}

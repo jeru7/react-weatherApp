@@ -6,7 +6,7 @@ import Today from './Today'
 import HourlyDaily from './HourlyDaily'
 import Current from './Current'
 
-function Main({ isDarkMode }) {
+function Main({ isDarkMode, weatherData }) {
   return (
     <>
       <main className='flex flex-col w-full gap-4 p-4 main_card--wrapper lg:grid lg:grid-cols-7'>
@@ -19,10 +19,14 @@ function Main({ isDarkMode }) {
           <FontAwesomeIcon icon={faEarthAmericas} className='text-xl' />
           <p className='font-extrabold text-md'>Get current location</p>
         </Button>
-        <Current isDarkMode={isDarkMode} />
-        <Today isDarkMode={isDarkMode} />
-        <HourlyDaily isDarkMode={isDarkMode} />
-        <DaysForecast isDarkMode={isDarkMode} />
+        {weatherData && (
+          <>
+            <Current isDarkMode={isDarkMode} weatherData={weatherData} />
+            <Today isDarkMode={isDarkMode} />
+            <HourlyDaily isDarkMode={isDarkMode} />
+            <DaysForecast isDarkMode={isDarkMode} />
+          </>
+        )}
       </main>
     </>
   )

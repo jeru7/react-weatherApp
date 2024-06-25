@@ -7,162 +7,134 @@ import {
 } from '@fortawesome/free-solid-svg-icons'
 import axios from 'axios'
 import Button from './Button'
+import Suggestions from './Suggestions'
+import Search from './Search'
 import { useState } from 'react'
 
 function Nav({
   isDarkMode,
   themeHandler,
   screenWidth,
-  searchHandler,
   currentCity,
+  weatherData,
+  mobSearchOpenHandler,
+  suggestions,
+  searchValue,
+  handleSuggestionClick,
+  handleKeyDown,
+  handleSearchClick,
+  handleInputSearch,
 }) {
-  const geoUserName = import.meta.env.VITE_WEATHERAPP_GEONAMES_USERNAME
-  const [searchValue, setSearchValue] = useState('')
-  const [suggestions, setSuggestions] = useState([])
-
-  const handleInputSearch = async (e) => {
-    setSearchValue(e.target.value)
-
-    if (e.target.value.length > 0) {
-      try {
-        const response = await axios.get('http://api.geonames.org/searchJSON', {
-          params: {
-            q: e.target.value,
-            maxRows: 5,
-            username: geoUserName,
-          },
-        })
-        setSuggestions(response.data.geonames)
-      } catch (e) {
-        console.log(`Failed fetching suggestions. ${e.message}`)
-      }
-    } else {
-      setSuggestions([])
-    }
-  }
-
-  const handleKeyDown = (e) => {
-    if (e.key === 'Enter') {
-      searchHandler(searchValue)
-    }
-  }
-
-  const handleSearchClick = () => {
-    const splitValue = searchValue.split(',')
-    searchHandler(splitValue[0], splitValue[1])
-  }
-
-  const handleSuggestionClick = (city) => {
-    setSearchValue(`${city.name}, ${city.countryCode}`)
-    setSuggestions([])
-    searchHandler(city.name, city.countryCode)
-  }
-
   return (
     <nav
       className={
-        'flex lg:p-2 gap-4 p-4 ' +
-        (isDarkMode ? 'main-bg' : 'light-bg dark-text second-light-bg')
+        'flex gap-4 p-4 ' +
+        (isDarkMode ? 'main-bg ' : 'light-bg dark-text second-light-bg ') +
+        (!weatherData && ' flex-col items-center justify-center')
       }
       id='nav'
     >
       <div
         className={
-          'md:flex-1 lg:basis-auto flex items-center lg:justify-between lg:rounded-xl lg:p-3 lg:drop-shadow-md ' +
-          (isDarkMode ? 'main-bg' : 'second-light-bg')
+          'flex lg:rounded-xl lg:p-3 ' +
+          (isDarkMode
+            ? screenWidth >= 1024
+              ? 'main-bg '
+              : 'bg-inherit '
+            : 'second-light-bg ') +
+          (weatherData
+            ? 'items-center lg:justify-between lg:drop-shadow-md lg:basis-auto md:flex-1'
+            : 'bg-inherit items-end ')
         }
       >
-        <h1 className='text-3xl font-extrabold sm:text-4xl justify-self-start bg-inherit'>
-          WeatherApp
-        </h1>
-        <div className='hidden lg:flex lg:gap-3'>
-          <FontAwesomeIcon
-            icon={faLocationDot}
-            className={
-              'text-xl xl:text-2xl ' + (isDarkMode ? 'filter-white' : '')
-            }
-          />
-          <p className='lg:text-lg xl:text-xl'>{currentCity}</p>
-        </div>
-      </div>
-
-      <div className='z-50 flex flex-1 gap-4 basis-auto lg:basis-1/4 lg:w-1/5 lg:drop-shadow-md '>
-        <Button
+        <h1
           className={
-            'h-full rounded-lg flex-1 lg:basis-auto drop-shadow-md text-2xl lg:hidden py-2 ' +
-            (isDarkMode ? 'second-bg' : 'second-light-bg')
+            'font-extrabold justify-self-start bg-inherit ' +
+            (weatherData ? 'text-3xl sm:text-4xl' : 'text-5xl lg:text-8xl')
           }
         >
-          <FontAwesomeIcon icon={faSearch} />
+          WeatherApp
+        </h1>
+        {currentCity && (
+          <>
+            <div className='hidden lg:flex lg:gap-3'>
+              <FontAwesomeIcon
+                icon={faLocationDot}
+                className={
+                  'text-xl xl:text-2xl ' + (isDarkMode ? 'filter-white' : '')
+                }
+              />
+              <p className='lg:text-lg xl:text-xl'>{currentCity}</p>
+            </div>
+          </>
+        )}
+      </div>
+
+      <div
+        className={
+          'z-50 flex gap-4 drop-shadow-md relative ' +
+          (weatherData
+            ? 'lg:basis-1/4 lg:w-1/5 basis-auto flex-1'
+            : 'h-fit w-4/5 sm:w-3/5 xl:w-2/5')
+        }
+      >
+        <Button
+          className={`h-full rounded-lg flex-1 lg:basis-auto drop-shadow-md text-2xl lg:hidden py-2 ${
+            isDarkMode ? 'second-bg' : 'second-light-bg'
+          } + ${weatherData ? '' : 'hidden'}`}
+        >
+          <FontAwesomeIcon icon={faSearch} onClick={mobSearchOpenHandler} />
         </Button>
 
         {/* triggered when the screen width hits lg(1024px) */}
         <div
-          className={
-            'hidden lg:flex flex-1 lg:basis-1/4 px-4 items-center gap-3 rounded-xl relative ' +
-            (isDarkMode ? 'main-bg' : 'second-light-bg')
-          }
+          className={`flex flex-1 flex-col px-4 rounded-xl relative justify-center drop-shadow-md ${
+            isDarkMode ? 'main-bg' : 'second-light-bg'
+          } ${
+            weatherData
+              ? `lg:basis-2/4 ${screenWidth >= 1024 ? '' : 'hidden'}`
+              : ''
+          }`}
         >
-          <div className='flex flex-col items-center w-full'>
-            <form className='flex items-center w-full gap-3 lg:flex-row-reverse '>
-              <input
-                type='text'
-                className={
-                  'text-xl w-full outline-none ' +
-                  (isDarkMode ? 'main-bg' : 'second-light-bg')
-                }
-                placeholder='Search City, Country Code...'
-                value={searchValue}
-                onChange={handleInputSearch}
-                onKeyDown={handleKeyDown}
-              ></input>
-              <FontAwesomeIcon
-                icon={faSearch}
-                className='text-xl cursor-pointer'
-                onClick={handleSearchClick}
-              />
-            </form>
-            {searchValue && suggestions.length > 0 && (
-              <ul
-                className={
-                  'absolute flex flex-col w-full mt-12 rounded-lg drop-shadow-md ' +
-                  (isDarkMode ? 'second-bg' : 'second-light-bg')
-                }
-              >
-                {suggestions.map((city) => (
-                  <li
-                    key={city.geonameId}
-                    onClick={() => handleSuggestionClick(city)}
-                    className='p-4 text-xl cursor-pointer bg-inherit'
-                  >
-                    {city.name}, {city.countryCode}
-                  </li>
-                ))}
-              </ul>
-            )}
-          </div>
+          <Search
+            isDarkMode={isDarkMode}
+            weatherData={weatherData}
+            searchValue={searchValue}
+            handleInputSearch={handleInputSearch}
+            handleKeyDown={handleKeyDown}
+            handleSearchClick={handleSearchClick}
+            handleSuggestionClick={handleSuggestionClick}
+            suggestions={suggestions}
+          />
         </div>
 
         <ThemeToggleButton
           isDarkMode={isDarkMode}
           themeHandler={themeHandler}
           screenWidth={screenWidth}
+          weatherData={weatherData}
         />
       </div>
     </nav>
   )
 }
 
-function ThemeToggleButton({ isDarkMode, themeHandler, screenWidth }) {
+function ThemeToggleButton({
+  isDarkMode,
+  themeHandler,
+  screenWidth,
+  weatherData,
+}) {
   return (
     <Button
       className={
-        'rounded-lg flex-1 drop-shadow-md text-2xl lg:flex items-center justify-center gap-4 ' +
+        'rounded-lg drop-shadow-md text-2xl items-center justify-center gap-4 ' +
         (isDarkMode
           ? screenWidth >= 1024
-            ? 'main-bg'
+            ? 'main-bg '
             : 'second-bg '
-          : 'second-light-bg')
+          : 'second-light-bg ') +
+        (weatherData ? 'lg:flex flex-1' : 'hidden')
       }
       onClick={themeHandler}
     >
