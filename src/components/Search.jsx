@@ -29,7 +29,7 @@ const Search = ({
         type='text'
         className={`w-full outline-none ${
           isDarkMode ? 'main-bg' : 'bg-inherit'
-        } ${mobSearchOpen ? 'text-xl' : 'text-sm lg:text-xl'}`}
+        } ${mobSearchOpen ? 'text-md md:text-lg' : 'text-sm lg:text-xl'}`}
         placeholder='Search City, Country Code...'
         value={searchValue}
         onChange={handleInputSearch}

@@ -4,7 +4,6 @@ const API_KEY = import.meta.env.VITE_WEATHERAPP_OPENWEATHER_API_KEY
 
 export const GetCurrentWeather = async (city, countryCode, lat, lon) => {
   let latLon = lat && lon
-  console.log(lat, lon)
   try {
     let response
     if (latLon) {

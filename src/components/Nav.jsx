@@ -5,11 +5,8 @@ import {
   faLocationDot,
   faSun,
 } from '@fortawesome/free-solid-svg-icons'
-import axios from 'axios'
 import Button from './Button'
-import Suggestions from './Suggestions'
 import Search from './Search'
-import { useState } from 'react'
 
 function Nav({
   isDarkMode,
@@ -27,16 +24,14 @@ function Nav({
 }) {
   return (
     <nav
-      className={
-        'flex gap-4 p-4 ' +
-        (isDarkMode ? 'main-bg ' : 'light-bg dark-text second-light-bg ') +
-        (!weatherData && ' flex-col items-center justify-center')
-      }
+      className={`flex gap-4 p-4 ${
+        isDarkMode ? 'main-bg ' : 'light-bg dark-text second-light-bg'
+      } ${!weatherData && ' flex-col items-center justify-center bg-inherit'}`}
       id='nav'
     >
       <div
         className={
-          'flex lg:rounded-xl lg:p-3 ' +
+          'flex lg:rounded-xl lg:p-3 lg:px-5 ' +
           (isDarkMode
             ? screenWidth >= 1024
               ? 'main-bg '
@@ -50,7 +45,9 @@ function Nav({
         <h1
           className={
             'font-extrabold justify-self-start bg-inherit ' +
-            (weatherData ? 'text-3xl sm:text-4xl' : 'text-5xl lg:text-8xl')
+            (weatherData
+              ? 'text-2xl sm:text-2xl md:text-3xl'
+              : 'text-5xl lg:text-8xl')
           }
         >
           WeatherApp
@@ -81,9 +78,10 @@ function Nav({
         <Button
           className={`h-full rounded-lg flex-1 lg:basis-auto drop-shadow-md text-2xl lg:hidden py-2 ${
             isDarkMode ? 'second-bg' : 'second-light-bg'
-          } + ${weatherData ? '' : 'hidden'}`}
+          } ${weatherData ? '' : 'hidden'}`}
+          onClick={() => mobSearchOpenHandler()}
         >
-          <FontAwesomeIcon icon={faSearch} onClick={mobSearchOpenHandler} />
+          <FontAwesomeIcon icon={faSearch} />
         </Button>
 
         {/* triggered when the screen width hits lg(1024px) */}

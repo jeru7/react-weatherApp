@@ -8,18 +8,7 @@ import {
 import sunriseIcon from '../../assets/sunriseIcon.png'
 import sunsetIcon from '../../assets/sunsetIcon.png'
 
-const Today = ({ isDarkMode, weatherData }) => {
-  const timeFormat = (timestamp, timezone) => {
-    const date = new Date((timestamp + timezone) * 1000)
-    let hours = date.getUTCHours()
-    let minutes = date.getUTCMinutes()
-    let amPm = hours >= 12 ? 'PM' : 'AM'
-    hours = hours % 12
-    hours = hours === 0 ? 12 : hours
-    let minutesStr = minutes < 10 ? '0' + minutes : minutes
-
-    return `${hours}:${minutesStr}${amPm}`
-  }
+const Today = ({ isDarkMode, weatherData, timeFormat }) => {
   return (
     <div
       className={
@@ -47,18 +36,17 @@ const Today = ({ isDarkMode, weatherData }) => {
           <p>Wind</p>
         </div>
         <div
-          className={
-            'rounded-2xl p-4 flex items-center justify-center gap-8 drop-shadow-md h-full ' +
-            (isDarkMode ? 'second-bg' : 'second-light-bg')
-          }
+          className={`rounded-2xl p-4 flex items-center justify-around gap-8 lg:gap-2 md:justify-center lg:justify-around drop-shadow-md h-full ${
+            isDarkMode ? 'second-bg' : 'second-light-bg'
+          }`}
         >
           <div className='flex flex-col items-center'>
             <div className='flex gap-2'>
               <FontAwesomeIcon
                 icon={faTemperatureArrowUp}
-                className='text-5xl lg:text-3xl'
+                className='text-3xl sm:text-5xl lg:text-2xl xl:text-4xl'
               />
-              <p className='text-5xl lg:text-3xl'>
+              <p className='text-3xl sm:text-5xl lg:text-2xl xl:text-4xl'>
                 {Math.round(weatherData.main.temp_max)}°
               </p>
             </div>
@@ -68,9 +56,9 @@ const Today = ({ isDarkMode, weatherData }) => {
             <div className='flex gap-2'>
               <FontAwesomeIcon
                 icon={faTemperatureArrowDown}
-                className='text-5xl lg:text-3xl'
+                className='text-3xl sm:text-5xl lg:text-2xl xl:text-4xl'
               />
-              <p className='text-5xl lg:text-3xl'>
+              <p className='text-3xl sm:text-5xl lg:text-2xl xl:text-4xl'>
                 {Math.round(weatherData.main.temp_min)}°
               </p>
             </div>

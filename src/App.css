@@ -91,7 +91,7 @@ li:last-child {
 }
 
 .second-light-bg li:hover {
-  background-color: var(--main-light) !important;
+  background-color: var(--main-light);
 }
 
 /* media queries */

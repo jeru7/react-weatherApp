@@ -17,16 +17,16 @@ function App() {
   const [searchValue, setSearchValue] = useState('')
   const [suggestions, setSuggestions] = useState([])
   const [mobSearchOpen, setMobSearchOpen] = useState(false)
-  const [currentLocation, setCurrentLocation] = useState(null)
   const [weatherData, setWeatherData] = useState(null)
   const [dayForecastData, setDayForecastData] = useState([])
 
   useEffect(() => {
     const handleResize = () => {
       setScreenWidth(window.innerWidth)
-      if (screenWidth >= 1024) {
-        setMobSearchOpen(false)
-      }
+    }
+
+    if (screenWidth >= 1024) {
+      setMobSearchOpen(false)
     }
 
     window.addEventListener('resize', handleResize)
@@ -65,11 +65,6 @@ function App() {
 
   const searchHandler = async (city, countryCode, lat, lon) => {
     try {
-      console.log(`lat: ${lat}`)
-      console.log(`lon: ${lon}`)
-      console.log(`city: ${city}`)
-      console.log(`countryCode: ${countryCode}`)
-
       let currentWeatherData
       if (lat && lon) {
         currentWeatherData = await GetCurrentWeather(null, null, lat, lon)
@@ -82,7 +77,6 @@ function App() {
       lon = lon || currentWeatherData.coord.lon
 
       const currentForecastData = await GetDayForecast(lat, lon)
-      console.log(currentWeatherData)
       setDayForecastData(currentForecastData)
     } catch (e) {
       console.log(`Error fetching data ${e.message}`)
@@ -93,12 +87,10 @@ function App() {
     setSuggestions(value)
   }
 
-  const mobSearchOpenHandler = (value) => {
-    if (value !== null) {
-      setMobSearchOpen(value)
-    } else {
-      setMobSearchOpen((prev) => !prev)
-    }
+  const mobSearchOpenHandler = () => {
+    console.log(mobSearchOpen)
+    setMobSearchOpen((prev) => !prev)
+    console.log(mobSearchOpen)
   }
 
   const searchValueHandler = (value) => {
@@ -118,7 +110,11 @@ function App() {
   }
 
   const handleSuggestionClick = async (city) => {
-    mobSearchOpenHandler(false)
+    if (screenWidth >= 1024) {
+      setMobSearchOpen(false)
+    } else {
+      mobSearchOpenHandler()
+    }
     searchValueHandler('')
     suggestionsHandler([])
     await searchHandler(city.name, city.countryCode)
@@ -129,10 +125,7 @@ function App() {
       navigator.geolocation.getCurrentPosition(
         (position) => {
           const { latitude, longitude } = position.coords
-          console.log(`lat2: ${latitude}`)
-          console.log(`lon2: ${longitude}`)
           // rounding to one decimal place returns my correct location
-          setCurrentLocation(latitude.toFixed(1), longitude)
           searchHandler(null, null, latitude.toFixed(1), longitude)
         },
         (e) => {
@@ -155,7 +148,7 @@ function App() {
         if (screenWidth >= 1024) {
           return 'h-full white-text second-bg'
         } else {
-          return 'h-full white-text main-bg'
+          return 'h-full white-text second-bg'
         }
       }
     } else {
@@ -182,8 +175,8 @@ function App() {
           <>
             <div className='flex flex-col gap-3 p-4'>
               <Button
-                className={'text-2xl flex items-center ml-auto'}
-                onClick={mobSearchOpenHandler}
+                className={'text-2xl flex items-center ml-auto p-4'}
+                onClick={() => mobSearchOpenHandler()}
               >
                 <FontAwesomeIcon icon={faXmark} />
               </Button>
@@ -240,7 +233,12 @@ function App() {
             </Button>
             {weatherData && (
               <>
-                <Main isDarkMode={isDarkMode} weatherData={weatherData} />
+                <Main
+                  isDarkMode={isDarkMode}
+                  weatherData={weatherData}
+                  dayForecastData={dayForecastData}
+                  searchCurrentLocation={searchCurrentLocation}
+                />
               </>
             )}
             <Footer
