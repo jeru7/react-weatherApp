@@ -4,11 +4,10 @@ const HourlyDaily = ({
   isDarkMode,
   months,
   dayForecastData,
-  currentTimestamp,
   handleLoading,
 }) => {
   const [isHourly, setIsHourly] = useState(true)
-  const currentDay = new Date(currentTimestamp * 1000).getUTCDate()
+  const currentDay = new Date().getDate()
   let hourlyItems = []
 
   const loggedDays = new Set()

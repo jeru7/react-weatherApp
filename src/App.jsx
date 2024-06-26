@@ -11,6 +11,7 @@ import { useState, useEffect } from 'react'
 import Search from './components/Search.jsx'
 import Suggestions from './components/Suggestions.jsx'
 import Loader from './components/Loader.jsx'
+import ErrorModal from './components/ErrorModal.jsx'
 
 function App() {
   const [screenWidth, setScreenWidth] = useState(window.innerWidth)
@@ -21,6 +22,7 @@ function App() {
   const [weatherData, setWeatherData] = useState(null)
   const [dayForecastData, setDayForecastData] = useState([])
   const [loading, setLoading] = useState(false)
+  const [error, setError] = useState(null)
 
   useEffect(() => {
     const handleResize = () => {
@@ -45,6 +47,7 @@ function App() {
   const geoUserName = import.meta.env.VITE_WEATHERAPP_GEONAMES_USERNAME
 
   const handleInputSearch = async (e) => {
+    e.preventDefault()
     searchValueHandler(e.target.value)
 
     if (e.target.value.length > 0) {
@@ -58,7 +61,7 @@ function App() {
         })
         suggestionsHandler(response.data.geonames)
       } catch (e) {
-        console.log(`Failed fetching suggestions. ${e.message}`)
+        setError(true)
       }
     } else {
       suggestionsHandler([])
@@ -82,7 +85,7 @@ function App() {
       const currentForecastData = await GetDayForecast(lat, lon)
       setDayForecastData(currentForecastData)
     } catch (e) {
-      console.log(`Error fetching data ${e.message}`)
+      setError(true)
     } finally {
       setLoading(false)
     }
@@ -93,9 +96,7 @@ function App() {
   }
 
   const mobSearchOpenHandler = () => {
-    console.log(mobSearchOpen)
     setMobSearchOpen((prev) => !prev)
-    console.log(mobSearchOpen)
   }
 
   const searchValueHandler = (value) => {
@@ -104,29 +105,46 @@ function App() {
 
   const handleKeyDown = async (e) => {
     if (e.key === 'Enter') {
-      await searchHandler(searchValue)
+      e.preventDefault()
+      try {
+        await searchHandler(searchValue)
+      } catch (e) {
+        setError(true)
+      }
     }
   }
 
-  const handleSearchClick = async () => {
+  const handleSearchClick = async (e) => {
+    e.preventDefault()
     const splitValue = searchValue.split(',')
-    await searchHandler(splitValue[0], splitValue[1])
-    searchValueHandler('')
+    try {
+      await searchHandler(splitValue[0], splitValue[1])
+      setSearchValue('')
+    } catch (e) {
+      setMobSearchOpen(false)
+      setError(true)
+    }
   }
 
   const handleSuggestionClick = async (city) => {
-    if (screenWidth >= 1024) {
-      setMobSearchOpen(false)
-    } else {
-      mobSearchOpenHandler()
-    }
-    searchValueHandler('')
+    setSearchValue('')
     suggestionsHandler([])
-    await searchHandler(city.name, city.countryCode)
+    try {
+      if (screenWidth >= 1024) {
+        setMobSearchOpen(false)
+      } else {
+        mobSearchOpenHandler()
+      }
+      await searchHandler(city.name, city.countryCode)
+    } catch (e) {
+      setMobSearchOpen(false)
+      setError(true)
+    }
   }
 
   const handleLoading = () => {
     setLoading((prev) => !prev)
+    setSearchValue('')
   }
 
   const searchCurrentLocation = () => {
@@ -147,6 +165,10 @@ function App() {
     } else {
       console.log(`This feature is not available on this browser`)
     }
+  }
+
+  const handleError = () => {
+    setError(null)
   }
 
   const conditionalClassnames = () => {
@@ -175,6 +197,7 @@ function App() {
 
   return (
     <>
+      {error && <ErrorModal handleError={handleError} />}
       {loading && <Loader />}
       <div
         className={`flex flex-col ${conditionalClassnames()} ${

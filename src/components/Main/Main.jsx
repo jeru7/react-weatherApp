@@ -89,7 +89,6 @@ function Main({
               days={days}
               months={months}
               dayForecastData={dayForecastData}
-              currentTimestamp={weatherData.dt}
               handleLoading={handleLoading}
             />
             <DaysForecast
