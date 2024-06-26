@@ -10,6 +10,7 @@ import { GetCurrentWeather, GetDayForecast } from './api/weatherAPI.js'
 import { useState, useEffect } from 'react'
 import Search from './components/Search.jsx'
 import Suggestions from './components/Suggestions.jsx'
+import Loader from './components/Loader.jsx'
 
 function App() {
   const [screenWidth, setScreenWidth] = useState(window.innerWidth)
@@ -19,6 +20,7 @@ function App() {
   const [mobSearchOpen, setMobSearchOpen] = useState(false)
   const [weatherData, setWeatherData] = useState(null)
   const [dayForecastData, setDayForecastData] = useState([])
+  const [loading, setLoading] = useState(false)
 
   useEffect(() => {
     const handleResize = () => {
@@ -65,6 +67,7 @@ function App() {
 
   const searchHandler = async (city, countryCode, lat, lon) => {
     try {
+      setLoading(true)
       let currentWeatherData
       if (lat && lon) {
         currentWeatherData = await GetCurrentWeather(null, null, lat, lon)
@@ -80,6 +83,8 @@ function App() {
       setDayForecastData(currentForecastData)
     } catch (e) {
       console.log(`Error fetching data ${e.message}`)
+    } finally {
+      setLoading(false)
     }
   }
 
@@ -118,6 +123,10 @@ function App() {
     searchValueHandler('')
     suggestionsHandler([])
     await searchHandler(city.name, city.countryCode)
+  }
+
+  const handleLoading = () => {
+    setLoading((prev) => !prev)
   }
 
   const searchCurrentLocation = () => {
@@ -166,6 +175,7 @@ function App() {
 
   return (
     <>
+      {loading && <Loader />}
       <div
         className={`flex flex-col ${conditionalClassnames()} ${
           mobSearchOpen ? 'h-full justify-start' : 'justify-center'
@@ -238,6 +248,7 @@ function App() {
                   weatherData={weatherData}
                   dayForecastData={dayForecastData}
                   searchCurrentLocation={searchCurrentLocation}
+                  handleLoading={handleLoading}
                 />
               </>
             )}

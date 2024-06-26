@@ -11,6 +11,7 @@ function Main({
   weatherData,
   dayForecastData,
   searchCurrentLocation,
+  handleLoading,
 }) {
   const months = [
     'January',
@@ -89,6 +90,7 @@ function Main({
               months={months}
               dayForecastData={dayForecastData}
               currentTimestamp={weatherData.dt}
+              handleLoading={handleLoading}
             />
             <DaysForecast
               isDarkMode={isDarkMode}

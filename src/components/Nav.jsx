@@ -69,7 +69,7 @@ function Nav({
 
       <div
         className={
-          'z-50 flex gap-4 drop-shadow-md relative ' +
+          'z-30 flex gap-4 drop-shadow-md relative ' +
           (weatherData
             ? 'lg:basis-1/4 lg:w-1/5 basis-auto flex-1'
             : 'h-fit w-4/5 sm:w-3/5 xl:w-2/5')

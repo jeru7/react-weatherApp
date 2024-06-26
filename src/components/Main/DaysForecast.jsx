@@ -5,13 +5,13 @@ const DaysForecast = ({ isDarkMode, days, months, dayForecastData }) => {
   const loggedDays = new Set()
   const loggedDate = new Set()
 
+  const today = new Date()
+  const currentDayKey = `${today.getUTCMonth()}${today.getUTCDate()}`
+
   if (dayForecastData && dayForecastData.list) {
     dayForecastData.list.forEach((item) => {
       const date = new Date(item.dt_txt)
-      const dayNumber = date.getUTCDate()
-      const month = months[date.getUTCMonth()]
-
-      const dayKey = `${month} ${dayNumber}`
+      const dayKey = `${date.getUTCMonth()}${date.getUTCDate()}`
 
       if (!loggedDays.has(dayKey)) {
         loggedDays.add(dayKey)
@@ -33,17 +33,21 @@ const DaysForecast = ({ isDarkMode, days, months, dayForecastData }) => {
         const month = months[date.getUTCMonth()]
         const dayName = days[date.getUTCDay()]
         const temp = item.main.temp
-        return (
-          <Day
-            key={index}
-            isDarkMode={isDarkMode}
-            dayName={dayName}
-            month={month}
-            dayNumber={dayNumber}
-            temp={temp.toFixed(1)}
-            icon={item.weather[0].icon}
-          />
-        )
+        const dayKey = `${date.getUTCMonth()}${date.getUTCDate()}`
+
+        if (dayKey !== currentDayKey) {
+          return (
+            <Day
+              key={index}
+              isDarkMode={isDarkMode}
+              dayName={dayName}
+              month={month}
+              dayNumber={dayNumber}
+              temp={temp.toFixed(1)}
+              icon={item.weather[0].icon}
+            />
+          )
+        }
       })}
     </div>
   )

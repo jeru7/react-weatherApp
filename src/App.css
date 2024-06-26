@@ -24,6 +24,14 @@
   --main-ff: 'Anonymous Pro', monospace;
 }
 
+html {
+  scrollbar-width: none;
+}
+
+body {
+  overflow: -moz-scrollbars-none;
+}
+
 /* color theme */
 .white-text {
   color: var(--white-text);
@@ -92,6 +100,43 @@ li:last-child {
 
 .second-light-bg li:hover {
   background-color: var(--main-light);
+}
+
+::-webkit-scrollbar {
+  width: 0px;
+  height: 0px;
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--gray-text);
+  border-radius: 10px;
+}
+
+/* loader - copied (css-loaders.com) */
+/* HTML: <div class="loader"></div> */
+.loader {
+  width: 60px;
+  aspect-ratio: 2;
+  --_g: no-repeat radial-gradient(circle closest-side, #000 90%, #0000);
+  background: var(--_g) 0% 50%, var(--_g) 50% 50%, var(--_g) 100% 50%;
+  background-size: calc(100% / 3) 50%;
+  animation: l3 1s infinite linear;
+}
+
+@keyframes l3 {
+  20% {
+    background-position: 0% 0%, 50% 50%, 100% 50%;
+  }
+  40% {
+    background-position: 0% 100%, 50% 0%, 100% 50%;
+  }
+  60% {
+    background-position: 0% 50%, 50% 100%, 100% 0%;
+  }
+  80% {
+    background-position: 0% 50%, 50% 50%, 100% 100%;
+  }
 }
 
 /* media queries */
