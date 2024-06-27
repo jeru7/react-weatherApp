@@ -1,6 +1,8 @@
-# WeatherApp
+# WeatherApp 
 
 WeatherApp is a simple weather web application that will let you check the current weather of a specific city using ReactJS and Tailwind for layout and design. This will be the first web application that I will be creating using the 6-week sprint method.
+
+*(1/5) react projects with api*
 
 ## Designs and Layout
 
