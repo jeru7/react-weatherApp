@@ -3,7 +3,6 @@ import { faLocationDot, faCalendar } from '@fortawesome/free-solid-svg-icons'
 const Current = ({ isDarkMode, weatherData, dateFormat }) => {
   const description = weatherData.weather[0].description
   const temp = weatherData.main.temp
-  console.log(weatherData)
   return (
     <div
       className={`card flex flex-col items-center justify-around p-4 drop-shadow-md rounded-2xl lg:col-start-3 lg:col-end-5 ${
