@@ -46,8 +46,16 @@ function Nav({
           className={
             `font-extrabold justify-self-start ${
               isDarkMode
-                ? `${screenWidth >= 1024 ? 'main-bg' : ''}`
-                : `${screenWidth >= 1024 ? `second-light-bg` : ``}`
+                ? `${
+                    screenWidth >= 1024
+                      ? `${weatherData ? 'main-bg' : 'second-bg'}`
+                      : 'second-bg'
+                  }`
+                : `${
+                    screenWidth >= 1024
+                      ? `${weatherData ? 'second-light-bg' : 'light-bg'}`
+                      : ``
+                  }`
             } ` +
             (weatherData
               ? 'text-2xl sm:text-2xl md:text-3xl'

@@ -15,7 +15,7 @@ import ErrorModal from './components/ErrorModal.jsx'
 
 function App() {
   const [screenWidth, setScreenWidth] = useState(window.innerWidth)
-  const [isDarkMode, setIsDarkMode] = useState(true)
+  const [isDarkMode, setIsDarkMode] = useState(false)
   const [searchValue, setSearchValue] = useState('')
   const [suggestions, setSuggestions] = useState([])
   const [mobSearchOpen, setMobSearchOpen] = useState(false)
