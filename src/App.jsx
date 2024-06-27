@@ -53,7 +53,7 @@ function App() {
     if (e.target.value.length > 0) {
       try {
         const response = await axios.get(
-          'https://api.geonames.org/searchJSON',
+          'https://secure.geonames.org/searchJSON',
           {
             params: {
               q: e.target.value,
