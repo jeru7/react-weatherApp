@@ -79,7 +79,7 @@ const HourlyDaily = ({
         <div
           className={`flex w-full gap-2 p-2 overflow-x-auto ${
             isHourly ? '' : 'xl:justify-center'
-          }`}
+          } ${isHourly && hourlyItems.length <= 5 ? 'xl:justify-center' : ''}`}
         >
           {isHourly
             ? hourlyItems.map((item, index) => {

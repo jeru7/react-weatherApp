@@ -2,6 +2,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faGithub } from '@fortawesome/free-brands-svg-icons'
 
 function Footer({ isDarkMode, weatherData }) {
+  const handleOnClick = () => {
+    window.open('https://github.com/jeru7', '_blank')
+  }
+
   const conditionalClassnames = () => {
     if (isDarkMode) {
       if (weatherData) {
@@ -21,6 +25,7 @@ function Footer({ isDarkMode, weatherData }) {
     <footer
       className={`flex items-center justify-center p-4 rounded-2xl mx-4 mb-4
         ${conditionalClassnames()}`}
+      onClick={handleOnClick}
     >
       <div className='flex gap-1 github--wrapper'>
         <FontAwesomeIcon icon={faGithub} className='text-5xl' />
