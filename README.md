@@ -8,9 +8,12 @@ Before the implementation, all of the designs and layout are created in figma. H
 
 ## Preview Site
 
-_There's no live site at the moment_
+[View live site](https://jeru7.github.io/react-weatherApp/)
 
 ## Tech Stack
 
 - ReactJS (Vite)
 - Tailwind
+- Axios
+- OpenWeather API
+- Geonames API
