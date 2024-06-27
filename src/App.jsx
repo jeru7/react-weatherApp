@@ -132,9 +132,8 @@ function App() {
     try {
       if (screenWidth >= 1024) {
         setMobSearchOpen(false)
-      } else {
-        mobSearchOpenHandler()
       }
+      setMobSearchOpen(false)
       await searchHandler(city.name, city.countryCode)
     } catch (e) {
       setMobSearchOpen(false)
@@ -169,6 +168,8 @@ function App() {
 
   const handleError = () => {
     setError(null)
+    setSearchValue('')
+    setMobSearchOpen(false)
   }
 
   const conditionalClassnames = () => {

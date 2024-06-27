@@ -10,7 +10,7 @@ const Suggestions = ({
       className={`flex flex-col w-full rounded-lg ${
         isDarkMode
           ? 'second-bg '
-          : `${mobSearchOpen ? 'light-bg white-text' : 'second-light-bg'}`
+          : `${mobSearchOpen ? 'light-bg dark-text' : 'second-light-bg'}`
       } ${
         weatherData ? `${mobSearchOpen ? '' : 'top-12 mt-5'}` : 'top-12 mt-3'
       } ${mobSearchOpen ? 'text-lg' : 'absolute drop-shadow-md'}`}
