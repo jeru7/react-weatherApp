@@ -52,13 +52,16 @@ function App() {
 
     if (e.target.value.length > 0) {
       try {
-        const response = await axios.get('http://api.geonames.org/searchJSON', {
-          params: {
-            q: e.target.value,
-            maxRows: `${mobSearchOpen ? 10 : 5}`,
-            username: geoUserName,
-          },
-        })
+        const response = await axios.get(
+          'https://api.geonames.org/searchJSON',
+          {
+            params: {
+              q: e.target.value,
+              maxRows: `${mobSearchOpen ? 10 : 5}`,
+              username: geoUserName,
+            },
+          }
+        )
         suggestionsHandler(response.data.geonames)
       } catch (e) {
         setError(true)
