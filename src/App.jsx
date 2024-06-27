@@ -15,7 +15,7 @@ import ErrorModal from './components/ErrorModal.jsx'
 
 function App() {
   const [screenWidth, setScreenWidth] = useState(window.innerWidth)
-  const [isDarkMode, setIsDarkMode] = useState(false)
+  const [isDarkMode, setIsDarkMode] = useState(true)
   const [searchValue, setSearchValue] = useState('')
   const [suggestions, setSuggestions] = useState([])
   const [mobSearchOpen, setMobSearchOpen] = useState(false)
@@ -193,7 +193,7 @@ function App() {
         if (screenWidth >= 1024) {
           return 'h-full light-bg dark-text'
         } else {
-          return 'h-full second-light-bg dark-text'
+          return 'h-full light-bg dark-text'
         }
       }
     }
