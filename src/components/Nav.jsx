@@ -44,10 +44,14 @@ function Nav({
       >
         <h1
           className={
-            'font-extrabold justify-self-start bg-inherit ' +
+            `font-extrabold justify-self-start ${
+              isDarkMode
+                ? `${screenWidth >= 1024 ? 'main-bg' : ''}`
+                : `${screenWidth >= 1024 ? `second-light-bg` : ``}`
+            } ` +
             (weatherData
               ? 'text-2xl sm:text-2xl md:text-3xl'
-              : 'text-5xl lg:text-8xl')
+              : 'text-5xl lg:text-8xl ')
           }
         >
           WeatherApp

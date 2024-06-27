@@ -20,7 +20,6 @@ const HourlyDaily = ({
     dayForecastData.list.forEach((item) => {
       const date = new Date((item.dt + weatherData.timezone) * 1000)
       const day = date.getUTCDate()
-      console.log(day, currentDayNum)
       if (day === currentDayNum) {
         hourlyItems.push(item)
       }
