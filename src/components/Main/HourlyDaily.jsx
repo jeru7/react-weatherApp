@@ -5,9 +5,12 @@ const HourlyDaily = ({
   months,
   dayForecastData,
   handleLoading,
+  weatherData,
 }) => {
   const [isHourly, setIsHourly] = useState(true)
-  const currentDay = new Date().getDate()
+  const currentDay = new Date((weatherData.dt + weatherData.timezone) * 1000)
+  const currentDayNum = currentDay.getUTCDate()
+  const currentDayKey = `${currentDay.getUTCMonth()}${currentDay.getUTCDate()}`
   let hourlyItems = []
 
   const loggedDays = new Set()
@@ -15,19 +18,17 @@ const HourlyDaily = ({
 
   if (dayForecastData && dayForecastData.list) {
     dayForecastData.list.forEach((item) => {
-      const date = new Date(item.dt * 1000)
+      const date = new Date((item.dt + weatherData.timezone) * 1000)
       const day = date.getUTCDate()
-      if (day === currentDay) {
+      console.log(day, currentDayNum)
+      if (day === currentDayNum) {
         hourlyItems.push(item)
       }
     })
 
     dayForecastData.list.forEach((item) => {
-      const date = new Date(item.dt_txt)
-      const dayNumber = date.getUTCDate()
-      const month = months[date.getUTCMonth()]
-
-      const dayKey = `${month} ${dayNumber}`
+      const date = new Date((item.dt + weatherData.timezone) * 1000)
+      const dayKey = `${date.getUTCMonth()}${date.getUTCDate()}`
 
       if (!loggedDays.has(dayKey)) {
         loggedDays.add(dayKey)
@@ -75,10 +76,14 @@ const HourlyDaily = ({
             <p className='text-xl'>Daily</p>
           </div>
         </div>
-        <div className='flex w-full gap-2 p-2 overflow-x-auto'>
+        <div
+          className={`flex w-full gap-2 p-2 overflow-x-auto ${
+            isHourly ? '' : 'xl:justify-center'
+          }`}
+        >
           {isHourly
             ? hourlyItems.map((item, index) => {
-                const date = new Date(item.dt * 1000)
+                const date = new Date((item.dt + weatherData.timezone) * 1000)
                 let hours = date.getUTCHours()
                 let amPm = hours >= 12 ? 'PM' : 'AM'
                 hours = hours % 12
@@ -101,24 +106,28 @@ const HourlyDaily = ({
                 )
               })
             : [...loggedDate].map((item, index) => {
-                const date = new Date(item.dt_txt)
+                const date = new Date((item.dt + weatherData.timezone) * 1000)
                 const dayNumber = date.getUTCDate()
                 const month = months[date.getUTCMonth()]
                 const temp = item.main.temp
                 const description = item.weather[0].description
                 const icon = item.weather[0].icon
-                return (
-                  <Card
-                    key={index}
-                    isDarkMode={isDarkMode}
-                    temp={temp}
-                    description={description}
-                    icon={icon}
-                    dayNumber={dayNumber}
-                    month={month}
-                    isHourly={isHourly}
-                  />
-                )
+                const dayKey = `${date.getUTCMonth()}${date.getUTCDate()}`
+
+                if (dayKey !== currentDayKey) {
+                  return (
+                    <Card
+                      key={index}
+                      isDarkMode={isDarkMode}
+                      temp={temp}
+                      description={description}
+                      icon={icon}
+                      dayNumber={dayNumber}
+                      month={month}
+                      isHourly={isHourly}
+                    />
+                  )
+                }
               })}
         </div>
       </div>

@@ -1,16 +1,22 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCalendar } from '@fortawesome/free-solid-svg-icons'
 
-const DaysForecast = ({ isDarkMode, days, months, dayForecastData }) => {
+const DaysForecast = ({
+  isDarkMode,
+  days,
+  months,
+  dayForecastData,
+  weatherData,
+}) => {
   const loggedDays = new Set()
   const loggedDate = new Set()
 
-  const today = new Date()
-  const currentDayKey = `${today.getUTCMonth()}${today.getUTCDate()}`
+  const currentDay = new Date((weatherData.dt + weatherData.timezone) * 1000)
+  const currentDayKey = `${currentDay.getUTCMonth()}${currentDay.getUTCDate()}`
 
   if (dayForecastData && dayForecastData.list) {
     dayForecastData.list.forEach((item) => {
-      const date = new Date(item.dt_txt)
+      const date = new Date((item.dt + weatherData.timezone) * 1000)
       const dayKey = `${date.getUTCMonth()}${date.getUTCDate()}`
 
       if (!loggedDays.has(dayKey)) {
@@ -28,7 +34,7 @@ const DaysForecast = ({ isDarkMode, days, months, dayForecastData }) => {
     >
       <h3 className='self-start text-2xl'>5 Days Forecasts</h3>
       {[...loggedDate].map((item, index) => {
-        const date = new Date(item.dt_txt)
+        const date = new Date((item.dt + weatherData.timezone) * 1000)
         const dayNumber = date.getUTCDate()
         const month = months[date.getUTCMonth()]
         const dayName = days[date.getUTCDay()]

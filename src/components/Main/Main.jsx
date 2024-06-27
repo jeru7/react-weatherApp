@@ -38,11 +38,11 @@ function Main({
     'Saturday',
   ]
 
-  const dateFormat = (timestamp) => {
-    const date = new Date(timestamp * 1000)
+  const dateFormat = (timestamp, timezone) => {
+    const date = new Date((timestamp + timezone) * 1000)
     const dayName = days[date.getUTCDay()]
     const month = months[date.getUTCMonth()]
-    const dayNumber = date.getUTCDate()
+    let dayNumber = date.getUTCDate()
 
     return `${dayName} ${dayNumber}, ${month}`
   }
@@ -90,12 +90,14 @@ function Main({
               months={months}
               dayForecastData={dayForecastData}
               handleLoading={handleLoading}
+              weatherData={weatherData}
             />
             <DaysForecast
               isDarkMode={isDarkMode}
               days={days}
               months={months}
               dayForecastData={dayForecastData}
+              weatherData={weatherData}
             />
           </>
         )}

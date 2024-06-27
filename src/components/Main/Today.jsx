@@ -9,6 +9,8 @@ import sunriseIcon from '../../assets/sunriseIcon.png'
 import sunsetIcon from '../../assets/sunsetIcon.png'
 
 const Today = ({ isDarkMode, weatherData, timeFormat }) => {
+  const min = weatherData.main.temp_min
+  const max = weatherData.main.temp_max
   return (
     <div
       className={
@@ -44,10 +46,10 @@ const Today = ({ isDarkMode, weatherData, timeFormat }) => {
             <div className='flex gap-2'>
               <FontAwesomeIcon
                 icon={faTemperatureArrowUp}
-                className='text-3xl sm:text-5xl lg:text-2xl xl:text-4xl'
+                className='text-2xl sm:text-5xl lg:text-xl xl:text-2xl'
               />
-              <p className='text-3xl sm:text-5xl lg:text-2xl xl:text-4xl'>
-                {Math.round(weatherData.main.temp_max)}°
+              <p className='text-2xl sm:text-5xl lg:text-xl xl:text-2xl'>
+                {max.toFixed(1)}°
               </p>
             </div>
             <p>Max</p>
@@ -56,10 +58,10 @@ const Today = ({ isDarkMode, weatherData, timeFormat }) => {
             <div className='flex gap-2'>
               <FontAwesomeIcon
                 icon={faTemperatureArrowDown}
-                className='text-3xl sm:text-5xl lg:text-2xl xl:text-4xl'
+                className='text-2xl sm:text-5xl lg:text-xl xl:text-2xl'
               />
-              <p className='text-3xl sm:text-5xl lg:text-2xl xl:text-4xl'>
-                {Math.round(weatherData.main.temp_min)}°
+              <p className='text-2xl sm:text-5xl lg:text-xl xl:text-2xl'>
+                {min.toFixed(1)}°
               </p>
             </div>
             <p>Min</p>
